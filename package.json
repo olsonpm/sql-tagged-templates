@@ -1,30 +1,22 @@
 {
-  "name": "sql-template-strings",
+  "name": "sql-tagged-templates",
   "version": "2.2.2",
-  "description": "ES6 tagged template strings for prepared statements with mysql and postgres",
-  "main": "index.js",
-  "files": [
-    "index.d.ts",
-    "index.js",
-    "LICENSE.txt",
-    "README.md"
-  ],
+  "type": "module",
+  "description": "Use tagged templates for dynamic sql",
+  "main": "src/index.mjs",
   "typings": "index.d.ts",
   "engines": {
-    "node": ">=4.0.0"
+    "node": "22.x || 24.x || 26.x"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/felixfbecker/node-sql-template-strings"
+    "url": "https://github.com/olsonpm/sql-tagged-templates"
   },
   "scripts": {
-    "lint": "eslint index.js test && npm run prettier",
-    "prettier": "prettier --write --list-different '**/*.{js?(on),.d.ts}'",
+    "prettier-check": "prettier --check --ignore-unknown .",
     "test": "mocha \"test/**/*.js\" --exit",
-    "cover": "nyc --all mocha \"test/**/*.js\" --exit",
-    "typedoc": "typedoc --module es2015 --target es2015 --includeDeclarations --excludeExternals --mode file --readme none --out typedoc index.d.ts",
-    "semantic-release": "semantic-release",
-    "commitmsg": "validate-commit-msg"
+    "check-markdown-links": "markdown-link-check -a 200,403 ./*.md ./docs/*.md",
+    "markdown-toc": "sh ./scripts/markdown-toc.sh insert"
   },
   "keywords": [
     "mysql",
@@ -39,35 +31,36 @@
     "template",
     "strings"
   ],
-  "author": "Felix Becker",
-  "license": "ISC",
+  "author": "Phil Olson <philip.olson@pm.me>",
+  "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
-    "cz-conventional-changelog": "^2.0.0",
-    "eslint": "^4.1.0",
+    "@eslint/js": "^10.0.1",
+    "@olsonpm/markdown-toc-gen": "1.2.0-personal2",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^2.8.0",
-    "husky": "^0.14.1",
+    "eslint-plugin-import-x": "^4.17.0",
+    "globals": "^17.7.0",
+    "markdown-link-check": "^3.14.2",
     "mocha": "^5.0.0",
-    "mysql": "^2.12.0",
     "mysql2": "^1.1.2",
-    "nyc": "^12.0.0",
     "pg": "^7.1.0",
-    "prettier": "1.13.3",
-    "semantic-release": "^15.0.0",
-    "sequelize": "^4.0.0",
-    "typedoc": "^0.11.0",
-    "validate-commit-msg": "^2.12.2"
+    "prettier": "^3.8.5",
+    "sequelize": "^4.0.0"
   },
-  "nyc": {
-    "include": [
-      "index.js"
-    ],
-    "exclude": [
-      "test/**/*.js"
+  "prettier": {
+    "arrowParens": "avoid",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "overrides": [
+      {
+        "files": [
+          "**/*.jsonc"
+        ],
+        "options": {
+          "trailingComma": "none"
+        }
+      }
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

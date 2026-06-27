@@ -1,7 +1,7 @@
-const SQL = require('../..')
-const mysql2 = require('mysql2')
-const mysql2Promise = require('mysql2/promise')
-const assert = require('assert')
+import assert from 'node:assert'
+import mysql2 from 'mysql2'
+import mysql2Promise from 'mysql2/promise'
+import sts from '../../src/index.mjs'
 
 describe('mysql2', function() {
   this.timeout(10000)
@@ -11,7 +11,7 @@ describe('mysql2', function() {
         describe(method, () => {
           it('should work with a simple query', done => {
             const connection = mysql2['create' + test](process.env.MYSQL_CONN)
-            connection[method](SQL`SELECT ${1} + 1 AS result`, (err, rows) => {
+            connection[method](sts`SELECT ${1} + 1 AS result`, (err, rows) => {
               if (err) {
                 return done(err)
               }
@@ -33,7 +33,7 @@ describe('mysql2/promise', () => {
           it('should work with a simple query', () => {
             return Promise.resolve(mysql2Promise['create' + test](process.env.MYSQL_CONN))
               .then(connection => {
-                return connection[method](SQL`SELECT ${1} + 1 AS result`)
+                return connection[method](sts`SELECT ${1} + 1 AS result`)
               })
               .then(rowsAndFields => {
                 assert.equal(rowsAndFields[0][0].result, 2)

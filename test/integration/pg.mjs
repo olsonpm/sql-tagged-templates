@@ -1,6 +1,6 @@
-const SQL = require('../..')
-const pg = require('pg')
-const assert = require('assert')
+import assert from 'node:assert'
+import pg from 'pg'
+import sts from '../../src/index.mjs'
 
 describe('pg', function() {
   this.timeout(10000)
@@ -10,7 +10,7 @@ describe('pg', function() {
       if (err) {
         return done(err)
       }
-      client.query(SQL`SELECT ${1} + 1 as result`, (err, result) => {
+      client.query(sts`SELECT ${1} + 1 as result`, (err, result) => {
         if (err) {
           return done(err)
         }
@@ -25,7 +25,7 @@ describe('pg', function() {
       if (err) {
         return done(err)
       }
-      client.query(SQL`SELECT ${1} + 1 as result`.setName('my_query'), (err, result) => {
+      client.query(sts`SELECT ${1} + 1 as result`.setName('my_query'), (err, result) => {
         if (err) {
           return done(err)
         }

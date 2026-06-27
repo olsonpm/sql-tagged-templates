@@ -1,0 +1,4 @@
+allowBuilds:
+  highlight.js: true
+  husky: true
+  unrs-resolver: true

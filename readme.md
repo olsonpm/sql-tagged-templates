@@ -1,0 +1,120 @@
+# SQL Tagged Templates
+
+## Table Of Contents
+
+<!-- toc -->
+
+- [What is it?](#what-is-it)
+- [Why make this library?](#why-make-this-library)
+- [What database libraries are supported?](#what-database-libraries-are-supported)
+- [Why is this library helpful?](#why-is-this-library-helpful)
+- [What all changed from sql-template-strings?](#what-all-changed-from-sql-template-strings)
+- [More Usage Info](#more-usage-info)
+
+<!-- tocstop -->
+
+<br>
+
+## What is it?
+
+A library to simplify dynamic sql queries.
+
+For example, you can write
+
+```js
+import stt from 'sql-tagged-templates/mysql2`
+
+const author = 'Kurt Vonnegut'
+const booksQuery = stt`select * from books where author = ${author}`
+```
+
+<br>
+
+## Why make this library?
+
+This is a fork of Felix Becker's [node-sql-template-strings][sts]
+
+I forked it because I wanted a few features for cleaner and more
+re-usable queries
+
+- immutability
+- nested queries
+
+Please note this isn't a drop-in replacement. If you're porting from
+sql-template-strings then [view our migration guide][migration-guide].
+
+<br>
+
+## What database libraries are supported?
+
+- [mysql2][mysql2]@3.x
+- [postgres][postgres]@8.x
+- [sequelize][sequelize]@6.x
+
+Quick examples for each can be [viewed here][dialect-examples].
+
+<br>
+
+## Why is this library helpful?
+
+It makes your larger dynamic queries more readable.
+
+For example, inserting many values:
+
+```js
+db.query(
+  `
+  insert into books (name, author, isbn, category, recommended_age, pages, price)
+  values (?, ?, ?, ?, ?, ?, ?)`,
+  [name, author, isbn, category, recommendedAge, pages, price]
+)
+
+// is more readable as
+db.query(stt`
+  insert into books (name, author, isbn, category, recommended_age, pages, price)
+  values (${name}, ${author}, ${isbn}, ${category}, ${recommendedAge}, ${pages}, ${price})
+`)
+```
+
+As your queries grow more complex, sql-tagged-templates allows you to easily
+reuse portions and compose them into full queries via nesting. Acheiving the
+same with sql-template-strings becomes unweildy using `.append()`.
+
+<br>
+
+## What all changed from sql-template-strings?
+
+- This is a [pure ESM package][pure-esm]
+- Only supports LTS versions of node
+- Drop support for the older [mysql][mysql] package
+- Only support the latest major versions of the other libraries (listed above)[db-libs-supported].
+  - The older versions may work fine, I just don't want to write tests for them
+    or support compatibility
+- [Dialects are now explicit][explicit-dialects]
+- The exported dialects are pure and immutable.
+  - This means a lot of the API has been removed e.g. no append, useBind,
+    setName and no exported class SQLStatement.
+  - Migrating from that API?  See our [migration guide][migration-guide]
+- [Queries can be nested][nested-queries]
+- [Raw sql is now explicit][raw-usage]
+
+<br>
+
+## More Usage Info
+
+Additional usage documentation [can be found here][more-usage-info]
+
+
+[db-libs-supported]: #what-database-libraries-are-supported
+[dialect-examples]: ./docs/dialect-examples.md
+[explicit-dialects]: ./docs/explicit-dialects.md
+[migration-guide]: ./docs/migrating-from-sts.md
+[more-usage-info]: ./docs/more-usage-info.md
+[mysql]: https://www.npmjs.com/package/mysql
+[mysql2]: https://www.npmjs.com/package/mysql2
+[nested-queries]: ./docs/more-usage-info.md#building-complex-queries-with-nesting
+[postgres]: https://www.npmjs.com/package/pg
+[pure-esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+[raw-usage]: ./docs/more-usage-info.md#raw-values
+[sequelize]: https://www.npmjs.com/package/sequelize
+[sts]: https://github.com/felixfbecker/node-sql-template-strings
