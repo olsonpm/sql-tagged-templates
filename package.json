@@ -1,9 +1,23 @@
 {
   "name": "sql-tagged-templates",
-  "version": "2.2.2",
+  "version": "0.1.0",
   "type": "module",
   "description": "Use tagged templates for dynamic sql",
   "main": "src/index.mjs",
+  "typings": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs",
+      "types": "./src/index.d.ts"
+    },
+    "./*": {
+      "import": "./src/dialects/*.mjs",
+      "types": "./src/dialects/*.d.ts"
+    }
+  },
+  "imports": {
+    "#src/*": "./src/*.mjs"
+  },
   "scripts": {
     "test-full": "nve 22,24,26 pnpm test-lite && pnpm test-integration",
     "test-lite": "mocha 'test/*.mjs'",
@@ -14,10 +28,6 @@
     "check-markdown-links": "markdown-link-check -a 200,403 ./*.md ./docs/*.md",
     "markdown-toc": "sh ./scripts/markdown-toc.sh insert"
   },
-  "imports": {
-    "#src/*": "./src/*.mjs"
-  },
-  "typings": "index.d.ts",
   "engines": {
     "node": "22.x || 24.x || 26.x"
   },
@@ -59,7 +69,16 @@
     "pg": "^8.22.0",
     "pg-hstore": "^2.3.4",
     "prettier": "^3.8.5",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "typescript": "^6.0.3"
+  },
+  "peerDependencies": {
+    "typescript": "5.x || 6.x"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   },
   "prettier": {
     "arrowParens": "avoid",

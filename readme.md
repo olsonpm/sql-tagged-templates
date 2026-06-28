@@ -19,20 +19,24 @@
 
 A library to simplify writing dynamic sql.
 
-For example, you can write a parameterized query like this:
+For example, you can write a parameterized query to MariaDB like this:
 
 ```js
 import stt from 'sql-tagged-templates/mariadb`
 
 const author = 'Kurt Vonnegut'
 const booksQuery = stt`select * from books where author = ${author}`
+// booksQuery.sql is 'select * from books author = ?'
+// booksQuery.values is ['Kurt Vonnegut']
+
+const rows = await mariadbPool.query(query)
 ```
 
 <br>
 
 ## Why make this library?
 
-This is a fork of Felix Becker's [node-sql-template-strings][sts]
+This is a fork/rewrite of Felix Becker's [node-sql-template-strings][sts]
 
 I forked it because I wanted a few features for cleaner and more
 re-usable queries
@@ -107,6 +111,11 @@ same with sql-template-strings becomes unweildy using `.append()`.
 Additional usage documentation [can be found here][more-usage-info]
 
 
+## API Reference
+
+View [the API reference here][api-reference]
+
+[api-reference]: ./docs/api-reference.md
 [db-libs-supported]: #what-database-libraries-are-supported
 [dialect-examples]: ./docs/dialect-examples.md
 [explicit-dialects]: ./docs/explicit-dialects.md

@@ -22,7 +22,7 @@
 sql-tagged-templates returns an _object_ that is understood by each
 database library.
 
-You can view [quick examples of each dialect here][dialect-example-objects].
+You can view [quick examples of each dialect here][dialect-examples].
 
 <br>
 
@@ -70,11 +70,6 @@ const pgQuery = stt.pg`select * from ${pgTable}
 > and escaping these values with proper escaping functions first if they come
 > from user input (E.g. `mariadbConnection.escapeId()`, `mysql2.escapeId()`
 > and `pg.escapeIdentifier()`).
-
-> [!warning]
-> Also, if you are working with prepared statements, keep in mind executing many
-> of them with changing raw values in a loop will quickly overflow the its
-> buffer and destroy their performance benefit, so be careful.
 
 <br>
 
@@ -155,4 +150,5 @@ sequelize.query(query)
 import { bound as stt } from 'sql-tagged-templates/sequelize'
 ```
 
-[dialect-example-objects]: ./dialect-example-objects.md
+[dialect-examples]: ./dialect-examples.md
+[pg-prepared-statement]: https://node-postgres.com/features/queries#prepared-statements

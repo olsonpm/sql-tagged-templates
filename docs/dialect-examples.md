@@ -1,21 +1,28 @@
 ## Dialect Examples
 
-All examples assume a const author
+These examples show queries using each database library with and
+without sql-tagged-templates.
 
-```js
-const author = 'Kurt Vonnegut'
-```
+They all assume a `const author = 'Kurt Vonnegut'`
 
 <br>
 
 ### mariadb
 
 ```js
-mariadb.query('select title from books where author = ?', [author])
+const rows = await mariadbPool.query(
+  'select title from books where author = ?',
+  [author]
+)
 
 // is equivalent to
 import stt from 'sql-tagged-templates/mariadb'
-mariadb.query(stt`select title from books where author = ${author}`)
+
+const query = stt`select title from books where author = ${author}`
+// query.sql is 'select title from books author = ?'
+// query.values is ['Kurt Vonnegut']
+
+const rows = await mariadbPool.query(query)
 ```
 
 <br>
@@ -23,11 +30,19 @@ mariadb.query(stt`select title from books where author = ${author}`)
 ### mysql2
 
 ```js
-mysql2.query('select title from books where author = ?', [author])
+const [rows] = await mysql2Pool.query(
+  'select title from books where author = ?',
+  [author]
+)
 
 // is equivalent to
 import stt from 'sql-tagged-templates/mysql2'
-mysql2.query(stt`select title from books where author = ${author}`)
+
+const query = stt`select title from books where author = ${author}`
+// query.sql is 'select title from books author = ?'
+// query.values is ['Kurt Vonnegut']
+
+const [rows] = await mysql2Pool.query(query)
 ```
 
 <br>
@@ -35,23 +50,62 @@ mysql2.query(stt`select title from books where author = ${author}`)
 ### pg
 
 ```js
-pg.query('select title from books where author = $1', [author])
+const { rows } = await pgPool.query(
+  'select title from books where author = $1',
+  [author]
+)
 
 // is equivalent to
 import stt from 'sql-tagged-templates/pg'
-pg.query(stt`select title from books where author = ${author}`)
+
+const query = stt`select title from books where author = ${author}`
+// query.text is 'select title from books author = $1'
+// query.values is ['Kurt Vonnegut']
+
+const { rows } = await pgPool.query(query)
 ```
 
 <br>
 
 ### sequelize
 
+*Note*: by default, sql-tagged-templates uses [replacements][sequelize-replacements].
+Use [bound][sequelize-bind] if you want to use parameterized queries instead.
+
 ```js
-sequelize.query('select title from books where author = ?', {
+const [rows] = await sequelize.query('select title from books where author = ?', {
   replacements: [author],
 })
 
 // is equivalent to
 import stt from 'sql-tagged-templates/sequelize'
-sequelize.query(stt`select title from books where author = ${author}`)
+
+const query = stt`select title from books where author = ${author}`
+// query.query is 'select title from books author = ?'
+// query.values is ['Kurt Vonnegut']
+// note: values are interpreted as "replacements" in sequelize
+
+const [rows] = await sequelize.query(query)
 ```
+
+<br>
+
+### sequelize - bound
+
+```js
+const [rows] = await sequelize.query('select title from books where author = ?', {
+  bind: [author],
+})
+
+// is equivalent to
+import { bound as stt } from 'sql-tagged-templates/sequelize'
+
+const query = stt`select title from books where author = ${author}`
+// query.query is 'select title from books author = ?'
+// query.bind is ['Kurt Vonnegut']
+
+const [rows] = await sequelize.query(query)
+```
+
+[sequelize-bind]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
+[sequelize-replacements]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#replacements

@@ -30,10 +30,7 @@ const makeDialect = options => {
       msg += "\n  *not* like `stt.raw`'some_column'`"
       throw new Error(msg)
     }
-    return {
-      rawSql,
-      [s.isRawSql]: true,
-    }
+    return { [s.rawSql]: rawSql }
   }
 
   dialect.empty = dialect.raw('')

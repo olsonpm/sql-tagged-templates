@@ -18,8 +18,9 @@
 
 ## Exports
 
-sql-tagged-templates exports three dialects which you import via named or using
-a subpath.
+sql-tagged-templates exports four [dialects](#dialect) which you import via name or subpath.
+
+*Note*: sequelize has an additional 'bound' dialect [explained further down](#sequelize-bind)
 
 <br>
 
@@ -33,6 +34,7 @@ const mdQuery = stt.mariadb`select * from books`
 const msQuery = stt.mysql2`select * from books`
 const pgQuery = stt.pg`select * from books`
 const sqQuery = stt.sequelize`select * from books`
+const sqQuery = stt.sequelize.bound`select * from books`
 ```
 
 <br>
@@ -43,24 +45,35 @@ const sqQuery = stt.sequelize`select * from books`
 import stt from 'sql-tagged-templates/mariadb'
 import stt from 'sql-tagged-templates/mysql2'
 import stt from 'sql-tagged-templates/pg'
-import stt from 'sql-tagged-templates/sequelize'
+import stt, { bound } from 'sql-tagged-templates/sequelize'
 ```
 
 <br>
 
 ## Dialect
 
-A 'dialect' is a tagged template function producing a query compatible with its
-library.
+A 'dialect' is a tagged template function producing a query object compatible
+with its library.
+
+You can [view quick examples of each dialect here][dialect-examples].
 
 The dialects have these types.
+
+<details>
+
+<summary>Click to show types</summary>
+
+<br>
+
+> [!note]
+> These types define the public API and leave out properties and structures used
+> internally for building the query.  Internal properties may change on
+> non-major version bumps.
 
 ```ts
 type MariadbDialect = Dialect<MariadbQuery>
 type Mysql2Dialect = Dialect<Mysql2Query>
 type PgDialect = Dialect<PgQuery>
-
-// the bound dialect is explained in the next section
 type SequelizeDialect = Dialect<SequelizeQuery> & {
   bound: SequelizeBoundDialect
 }
@@ -84,7 +97,7 @@ type DialectQuery = MariadbQuery
   | SequelizeBoundQuery
 
 type Dialect<DQ extends DialectQuery> = {
-  (strings: string[], ...values: unknown[]): DQ,
+  (strings: TemplateStringsArray, ...values: unknown[]): DQ,
 
   // raw and empty are explained in a later section
   raw: (rawSql: string) => unknown,
@@ -92,17 +105,13 @@ type Dialect<DQ extends DialectQuery> = {
 }
 ```
 
-> [!note]
-> These types define the public API and leave out properties and structures used
-> internally for building the query.  Internal properties may change on
-> non-major version bumps.
+</details>
 
 <br>
 
 ## Sequelize - Bind
 
-The sequelize dialect has an additional export `bound` which uses [the bind parameter][sequelize-bind-param]
-for the values.
+The sequelize dialect has an additional export `bound` which uses [the bind parameter][sequelize-bind-param].
 
 By default we use [replacements][sequelize-replacements].  This is a carryover
 from sql-template-strings.
@@ -121,15 +130,15 @@ boundStt`select * from books`
 
 ## Dialect.raw()
 
-Each dialect exposes a `.raw(rawSql: string)` function enabling you to
-include dynamic raw sql for things like dynamic column names.
-See [usage and examples here][raw-usage].
+Each dialect exposes a `.raw(rawSql: string)` function for things like adding
+dynamic column names. See [usage and examples here][raw-usage].
 
 ## Dialect.empty
 
 Each dialect exposes an `.empty` property allowing you to include conditional
 sql.  See [usage and examples here][empty-usage]
 
+[dialect-examples]: ./dialect-examples.md
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql
 [raw-usage]: ./more-usage-info.md#raw-values
 [sequelize-bind-param]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
