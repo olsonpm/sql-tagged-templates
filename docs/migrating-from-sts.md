@@ -25,7 +25,7 @@ sql-tagged-templates only supports the latest major versions of each database
 library. [These are listed here][supported-db-libs]
 
 - Note if you were on the older [mysql][mysql] library, you'll need to update it
-  to [mysql2][mysql2]
+  to [mysql2][mysql2] or [mariadb][mariadb]
 
 <br>
 
@@ -50,7 +50,7 @@ import this library instead of require it. e.g.
 const sts = require('sql-template-strings')
 
 // after - make sure to import the dialect you're using
-import stt from 'sql-tagged-templates/mysql2'
+import stt from 'sql-tagged-templates/mariadb'
 ```
 
 <br>
@@ -140,6 +140,7 @@ have to figure out how to approach your problem in an immutable way.
 
 [bound-usage]: ./more-usage-info.md#bound-statements-in-sequelize
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql
+[mariadb]: https://www.npmjs.com/package/mariadb
 [mysql]: https://www.npmjs.com/package/mysql
 [mysql2]: https://www.npmjs.com/package/mysql2
 [nesting]: ./more-usage-info.md#building-complex-queries-with-nesting

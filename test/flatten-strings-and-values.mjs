@@ -36,13 +36,13 @@ describe('flatten-strings-and-values', () => {
   })
 
   it('handles raw sql', () => {
-    const columnName = makeRawSql('name')
+    const columnName = makeRawSql('title')
     const res = flattenStringsAndValues({
       strings: ['select ', ' from books'],
       values: [columnName],
     })
     expect(res).to.deep.equal({
-      strings: ['select name from books'],
+      strings: ['select title from books'],
       values: [],
     })
   })

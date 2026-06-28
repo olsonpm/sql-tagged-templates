@@ -1,0 +1,20 @@
+name: sql-tagged-templates-mariadb
+
+services:
+  db:
+    image: mariadb:12.3.2
+    environment:
+      MARIADB_ROOT_PASSWORD: unused
+      MARIADB_USER: test
+      MARIADB_PASSWORD: test
+      MARIADB_DATABASE: test
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      start_period: 5s
+      interval: 2s
+      timeout: 2s
+      retries: 5
+    ports:
+      - 7886:3306
+    volumes:
+      - ./initial-db.sql:/docker-entrypoint-initdb.d/initial-db.sql

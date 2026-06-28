@@ -17,12 +17,12 @@
 
 ## What is it?
 
-A library to simplify dynamic sql queries.
+A library to simplify writing dynamic sql.
 
-For example, you can write
+For example, you can write a parameterized query like this:
 
 ```js
-import stt from 'sql-tagged-templates/mysql2`
+import stt from 'sql-tagged-templates/mariadb`
 
 const author = 'Kurt Vonnegut'
 const booksQuery = stt`select * from books where author = ${author}`
@@ -47,6 +47,7 @@ sql-template-strings then [view our migration guide][migration-guide].
 
 ## What database libraries are supported?
 
+- [mariadb][mariadb]@3.x
 - [mysql2][mysql2]@3.x
 - [postgres][postgres]@8.x
 - [sequelize][sequelize]@6.x
@@ -64,15 +65,15 @@ For example, inserting many values:
 ```js
 db.query(
   `
-  insert into books (name, author, isbn, category, recommended_age, pages, price)
+  insert into books (title, author, isbn, category, recommended_age, pages, price)
   values (?, ?, ?, ?, ?, ?, ?)`,
-  [name, author, isbn, category, recommendedAge, pages, price]
+  [title, author, isbn, category, recommendedAge, pages, price]
 )
 
 // is more readable as
 db.query(stt`
-  insert into books (name, author, isbn, category, recommended_age, pages, price)
-  values (${name}, ${author}, ${isbn}, ${category}, ${recommendedAge}, ${pages}, ${price})
+  insert into books (title, author, isbn, category, recommended_age, pages, price)
+  values (${title}, ${author}, ${isbn}, ${category}, ${recommendedAge}, ${pages}, ${price})
 `)
 ```
 
@@ -87,9 +88,10 @@ same with sql-template-strings becomes unweildy using `.append()`.
 - This is a [pure ESM package][pure-esm]
 - Only supports LTS versions of node
 - Drop support for the older [mysql][mysql] package
-- Only support the latest major versions of the other libraries (listed above)[db-libs-supported].
+- Add support for the [mariadb][mariadb] package
+- Only support the latest major versions of the other libraries [listed above][db-libs-supported].
   - The older versions may work fine, I just don't want to write tests for them
-    or support compatibility
+    nor support compatibility
 - [Dialects are now explicit][explicit-dialects]
 - The exported dialects are pure and immutable.
   - This means a lot of the API has been removed e.g. no append, useBind,
@@ -108,6 +110,7 @@ Additional usage documentation [can be found here][more-usage-info]
 [db-libs-supported]: #what-database-libraries-are-supported
 [dialect-examples]: ./docs/dialect-examples.md
 [explicit-dialects]: ./docs/explicit-dialects.md
+[mariadb]: https://www.npmjs.com/package/mariadb
 [migration-guide]: ./docs/migrating-from-sts.md
 [more-usage-info]: ./docs/more-usage-info.md
 [mysql]: https://www.npmjs.com/package/mysql

@@ -7,17 +7,19 @@ You have the option of either named exports:
 ```js
 import * as stt from 'sql-tagged-templates'
 
-stt.mysql2`select * from my_table`
+stt.mariadb`select * from books`
+stt.mysql2`select * from books`
 
-stt.pg`select * from my_table`
+stt.pg`select * from books`
 
-stt.sequelize`select * from my_table`
-stt.sequelize.bound`select * from my_table`
+stt.sequelize`select * from books`
+stt.sequelize.bound`select * from books`
 ```
 
 Or subpath
 
 ```js
+import stt from 'sql-tagged-templates/mariadb'
 import stt from 'sql-tagged-templates/mysql2'
 import stt from 'sql-tagged-templates/pg'
 

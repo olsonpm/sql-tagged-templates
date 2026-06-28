@@ -1,24 +1,33 @@
 ## Dialect Examples
 
+All examples assume a const author
+
+```js
+const author = 'Kurt Vonnegut'
+```
+
+<br>
+
+### mariadb
+
+```js
+mariadb.query('select title from books where author = ?', [author])
+
+// is equivalent to
+import stt from 'sql-tagged-templates/mariadb'
+mariadb.query(stt`select title from books where author = ${author}`)
+```
+
 <br>
 
 ### mysql2
 
 ```js
-const book = 'harry potter'
-const author = 'J. K. Rowling'
-
-// mysql2
-mysql2.query('SELECT author FROM books WHERE name = ? AND author = ?', [
-  book,
-  author,
-])
+mysql2.query('select title from books where author = ?', [author])
 
 // is equivalent to
 import stt from 'sql-tagged-templates/mysql2'
-mysql2.query(
-  stt.mysql2`SELECT author FROM books WHERE name = ${book} AND author = ${author}`
-)
+mysql2.query(stt`select title from books where author = ${author}`)
 ```
 
 <br>
@@ -26,17 +35,11 @@ mysql2.query(
 ### pg
 
 ```js
-// postgres:
-pg.query('SELECT author FROM books WHERE name = $1 AND author = $2', [
-  book,
-  author,
-])
+pg.query('select title from books where author = $1', [author])
 
 // is equivalent to
 import stt from 'sql-tagged-templates/pg'
-pg.query(
-  stt`SELECT author FROM books WHERE name = ${book} AND author = ${author}`
-)
+pg.query(stt`select title from books where author = ${author}`)
 ```
 
 <br>
@@ -44,14 +47,11 @@ pg.query(
 ### sequelize
 
 ```js
-// sequelize:
-sequelize.query('SELECT author FROM books WHERE name = ? AND author = ?', {
-  replacements: [book, author],
+sequelize.query('select title from books where author = ?', {
+  replacements: [author],
 })
 
 // is equivalent to
 import stt from 'sql-tagged-templates/sequelize'
-sequelize.query(
-  stt`SELECT author FROM books WHERE name = ${book} AND author = ${author}`
-)
+sequelize.query(stt`select title from books where author = ${author}`)
 ```

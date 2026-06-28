@@ -50,13 +50,13 @@ describe('dialect', () => {
   })
 
   it('can produce a raw sql object', () => {
-    const raw = stt.raw('name')
+    const raw = stt.raw('title')
 
-    expect(raw).to.deep.equal({ rawSql: 'name', [s.isRawSql]: true })
+    expect(raw).to.deep.equal({ rawSql: 'title', [s.isRawSql]: true })
   })
 
   it('throws when attempting to call raw as a tagged template', () => {
-    expect(() => stt.raw`name`).to.throw(
+    expect(() => stt.raw`title`).to.throw(
       /^raw is a function, not a tagged template/
     )
   })
@@ -82,28 +82,28 @@ describe('dialect', () => {
   })
 
   it('handles a query with raw sql', () => {
-    const column = stt.raw('name')
+    const column = stt.raw('title')
     const query = stt`select ${column} from books`
     expect(query).to.deep.include({
-      text: 'select name from books',
+      text: 'select title from books',
       values: [],
     })
   })
 
   it('handles a query with empty raw sql', () => {
     const where = stt.empty
-    const query = stt`select name from books ${where}`
+    const query = stt`select title from books ${where}`
     expect(query).to.deep.include({
-      text: 'select name from books ',
+      text: 'select title from books ',
       values: [],
     })
   })
 
   it('handles a single nested query', () => {
     const where = stt`where author = ${author}`
-    const query = stt`select name from books ${where}`
+    const query = stt`select title from books ${where}`
     expect(query).to.deep.include({
-      text: 'select name from books where author = $1',
+      text: 'select title from books where author = $1',
       values: [author],
     })
   })
@@ -112,9 +112,9 @@ describe('dialect', () => {
     const title = "Cat's Cradle"
     const and = stt`and title = ${title}`
     const where = stt`where author = ${author} ${and}`
-    const query = stt`select name from books ${where}`
+    const query = stt`select title from books ${where}`
     expect(query).to.deep.include({
-      text: 'select name from books where author = $1 and title = $2',
+      text: 'select title from books where author = $1 and title = $2',
       values: [author, title],
     })
   })

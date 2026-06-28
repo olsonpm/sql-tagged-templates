@@ -29,6 +29,7 @@ a subpath.
 import * as stt from 'sql-tagged-templates'
 
 // examples
+const mdQuery = stt.mariadb`select * from books`
 const msQuery = stt.mysql2`select * from books`
 const pgQuery = stt.pg`select * from books`
 const sqQuery = stt.sequelize`select * from books`
@@ -39,6 +40,7 @@ const sqQuery = stt.sequelize`select * from books`
 ### Subpath Imports
 
 ```js
+import stt from 'sql-tagged-templates/mariadb'
 import stt from 'sql-tagged-templates/mysql2'
 import stt from 'sql-tagged-templates/pg'
 import stt from 'sql-tagged-templates/sequelize'
@@ -54,6 +56,7 @@ library.
 The dialects have these types.
 
 ```ts
+type MariadbDialect = Dialect<MariadbQuery>
 type Mysql2Dialect = Dialect<Mysql2Query>
 type PgDialect = Dialect<PgQuery>
 
@@ -68,26 +71,31 @@ type SequelizeBoundDialect = Dialect<SequelizeBoundQuery>
 
 type HasValues = { values: unknown[] }
 
+type MariadbQuery = HasValues & { sql: string }
 type Mysql2Query = HasValues & { sql: string }
 type PgQuery = HasValues & { text: string }
 type SequelizeQuery = HasValues & { query: string }
 type SequelizeBoundQuery = { bind: unknown[], query: string }
 
-type DialectQuery = Mysql2Query | PgQuery | SequelizeQuery | SequelizeBoundQuery
+type DialectQuery = MariadbQuery
+  | Mysql2Query
+  | PgQuery
+  | SequelizeQuery
+  | SequelizeBoundQuery
 
 type Dialect<DQ extends DialectQuery> = {
   (strings: string[], ...values: unknown[]): DQ,
 
   // raw and empty are explained in a later section
-  raw: <S extends string>(rawSql: S) => ({ rawSql: S }),
-  empty: { rawSql: '' }
+  raw: (rawSql: string) => unknown,
+  empty: unknown
 }
 ```
 
 > [!note]
-> These types are the public API and leave out enumerable symbol-keyed
-> properties used for building the query.  Those properties are our internal API
-> and may change on non-major version bumps.
+> These types define the public API and leave out properties and structures used
+> internally for building the query.  Internal properties may change on
+> non-major version bumps.
 
 <br>
 
