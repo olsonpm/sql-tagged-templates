@@ -2,17 +2,18 @@ import { symbols as s } from './utils.mjs'
 
 const flattenStringsAndValues = ({ strings, values }) => {
   const strsCopy = [...strings]
+  const valsCopy = [...values]
 
   const flat = {
     strings: [strsCopy.shift()],
     values: [],
   }
 
-  while (values.length) {
-    const val = values.shift()
-    if (val[s.isRawString]) {
+  while (valsCopy.length) {
+    const val = valsCopy.shift()
+    if (val[s.isRawSql]) {
       const lastStrIdx = flat.strings.length - 1
-      flat.strings[lastStrIdx] += val.rawString + strsCopy.shift()
+      flat.strings[lastStrIdx] += val.rawSql + strsCopy.shift()
     } else if (val[s.isQuery]) {
       const nested = flattenStringsAndValues({
         strings: val[s.strings],

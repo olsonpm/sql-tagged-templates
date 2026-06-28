@@ -79,8 +79,8 @@ type Dialect<DQ extends DialectQuery> = {
   (strings: string[], ...values: unknown[]): DQ,
 
   // raw and empty are explained in a later section
-  raw: <S extends string>(rawString: S) => ({ rawString: S }),
-  empty: { rawString: '' }
+  raw: <S extends string>(rawSql: S) => ({ rawSql: S }),
+  empty: { rawSql: '' }
 }
 ```
 
@@ -113,7 +113,7 @@ boundStt`select * from books`
 
 ## Dialect.raw()
 
-Each dialect exposes a `.raw(rawString: string)` function enabling you to
+Each dialect exposes a `.raw(rawSql: string)` function enabling you to
 include dynamic raw sql for things like dynamic column names.
 See [usage and examples here][raw-usage].
 

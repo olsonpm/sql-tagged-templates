@@ -4,6 +4,18 @@
   "type": "module",
   "description": "Use tagged templates for dynamic sql",
   "main": "src/index.mjs",
+  "scripts": {
+    "test-full": "nve 22,24,26 pnpm test-lite",
+    "test-lite": "mocha 'test/**/*.mjs'",
+    "coverage": "c8 --all pnpm test-lite",
+    "coverage-check": "c8 --check-coverage --100 pnpm test-lite",
+    "prettier-check": "prettier --check --ignore-unknown .",
+    "check-markdown-links": "markdown-link-check -a 200,403 ./*.md ./docs/*.md",
+    "markdown-toc": "sh ./scripts/markdown-toc.sh insert"
+  },
+  "imports": {
+    "#src/*": "./src/*.mjs"
+  },
   "typings": "index.d.ts",
   "engines": {
     "node": "22.x || 24.x || 26.x"
@@ -11,12 +23,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/olsonpm/sql-tagged-templates"
-  },
-  "scripts": {
-    "prettier-check": "prettier --check --ignore-unknown .",
-    "test": "mocha \"test/**/*.js\" --exit",
-    "check-markdown-links": "markdown-link-check -a 200,403 ./*.md ./docs/*.md",
-    "markdown-toc": "sh ./scripts/markdown-toc.sh insert"
   },
   "keywords": [
     "mysql",
@@ -36,16 +42,20 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@olsonpm/markdown-toc-gen": "1.2.0-personal2",
-    "eslint": "^9.39.4",
+    "c8": "^11.0.0",
+    "chai": "^6.2.2",
+    "eslint": "^10.6.0",
     "eslint-config-prettier": "^2.8.0",
     "eslint-plugin-import-x": "^4.17.0",
     "globals": "^17.7.0",
     "markdown-link-check": "^3.14.2",
-    "mocha": "^5.0.0",
-    "mysql2": "^1.1.2",
-    "pg": "^7.1.0",
+    "mocha": "^11.7.6",
+    "monocart-coverage-reports": "^2.12.12",
+    "mysql2": "^3.22.5",
+    "nve": "^18.0.3",
+    "pg": "^8.22.0",
     "prettier": "^3.8.5",
-    "sequelize": "^4.0.0"
+    "sequelize": "^6.37.8"
   },
   "prettier": {
     "arrowParens": "avoid",
@@ -62,5 +72,13 @@
         }
       }
     ]
-  }
+  },
+  "c8": {
+    "include": [
+      "src/flatten-strings-and-values.mjs",
+      "src/make-dialect.mjs"
+    ],
+    "experimental-monocart": true
+  },
+  "packageManager": "pnpm@11.9.0+sha512.bd682d5d03fe525ef7c9fd6780c6884d1e756ac4c9c9fe00c538782824310dcf90e3ddc4f53835f06dfaebd5085e41855e0bcbb3b60de2ac5bbab89e5036f03b"
 }

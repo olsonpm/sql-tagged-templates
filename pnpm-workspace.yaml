@@ -2,3 +2,6 @@ allowBuilds:
   highlight.js: true
   husky: true
   unrs-resolver: true
+
+ignoredOptionalDependencies:
+  - '@typescript-eslint/utils'

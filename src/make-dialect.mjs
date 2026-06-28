@@ -18,12 +18,12 @@ const makeDialect = options => {
       [valuesName]: flat.values,
       [s.isQuery]: true,
       [s.strings]: flat.strings,
-      [s.strings]: flat.values,
+      [s.values]: flat.values,
     }
   }
 
-  dialect.raw = rawString => {
-    if (Array.isArray(rawString)) {
+  dialect.raw = rawSql => {
+    if (Array.isArray(rawSql)) {
       let msg = 'raw is a function, not a tagged template'
       msg +=
         "\n  e.g. you call it with parentheses like `stt.raw('some_column')`"
@@ -31,8 +31,8 @@ const makeDialect = options => {
       throw new Error(msg)
     }
     return {
-      rawString,
-      [s.isRawString]: true,
+      rawSql,
+      [s.isRawSql]: true,
     }
   }
 
