@@ -42,7 +42,7 @@ const rows = await mariadbPool.query(query)
 This is a fork/rewrite of Felix Becker's [node-sql-template-strings][sts]
 
 I forked it because I wanted a few features for cleaner and more
-re-usable queries
+reusable queries
 
 - immutability
 - nested queries
