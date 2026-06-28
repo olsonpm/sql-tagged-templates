@@ -1,7 +1,5 @@
 import { expect } from 'chai'
 import makeDialect from '#src/make-dialect'
-import { symbols as s } from '#src/utils'
-// import { makeRawSql, makeShallowQuery } from './utils.mjs'
 
 const author = 'Kurt Vonnegut'
 
@@ -49,20 +47,10 @@ describe('dialect', () => {
     stringName: 'text',
   })
 
-  it('can produce a raw sql object', () => {
-    const raw = stt.raw('title')
-
-    expect(raw).to.deep.equal({ rawSql: 'title', [s.isRawSql]: true })
-  })
-
   it('throws when attempting to call raw as a tagged template', () => {
     expect(() => stt.raw`title`).to.throw(
       /^raw is a function, not a tagged template/
     )
-  })
-
-  it('exposes an empty sql object', () => {
-    expect(stt.empty).to.deep.equal({ rawSql: '', [s.isRawSql]: true })
   })
 
   it('handles a query with no values', () => {

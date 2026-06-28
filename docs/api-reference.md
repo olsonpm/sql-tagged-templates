@@ -20,7 +20,7 @@
 
 sql-tagged-templates exports four [dialects](#dialect) which you import via name or subpath.
 
-*Note*: sequelize has an additional 'bound' dialect [explained further down](#sequelize-bind)
+*Note*: sequelize has an additional 'bound' dialect [explained further down](#sequelize---bind)
 
 <br>
 

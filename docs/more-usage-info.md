@@ -10,7 +10,6 @@
   - [Conditionally Add Sql](#conditionally-add-sql)
     - [Note](#note)
 - [Array Values](#array-values)
-- [Named Prepared Statements in Postgres](#named-prepared-statements-in-postgres)
 - [Bound Statements in sequelize](#bound-statements-in-sequelize)
 
 <!-- tocstop -->

@@ -10,6 +10,7 @@
 - [Why is this library helpful?](#why-is-this-library-helpful)
 - [What all changed from sql-template-strings?](#what-all-changed-from-sql-template-strings)
 - [More Usage Info](#more-usage-info)
+- [API Reference](#api-reference)
 
 <!-- tocstop -->
 

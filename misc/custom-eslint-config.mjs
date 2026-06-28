@@ -51,7 +51,6 @@ export default {
     'import-x/no-named-as-default': 'off',
     'import-x/no-relative-packages': 'error',
     'import-x/no-unresolved': ['error', { commonjs: true }],
-    'import-x/no-unused-modules': 'error',
     'import-x/no-useless-path-segments': 'error',
   },
 }

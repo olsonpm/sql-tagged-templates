@@ -1,0 +1,11 @@
+name: nve Cache
+description: Cache for the node versions downloaded by nve
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/cache@v4
+      with:
+        path: /home/runner/.cache/nve
+        key: ${{ runner.os }}-nve-${{ hashFiles('./package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nve-

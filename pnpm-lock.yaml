@@ -35,6 +35,9 @@ importers:
       globals:
         specifier: ^17.7.0
         version: 17.7.0
+      lean-package:
+        specifier: ^1.5.0
+        version: 1.5.0
       mariadb:
         specifier: ^3.5.3
         version: 3.5.3
@@ -1205,6 +1208,10 @@ packages:
   latest-version@9.0.0:
     resolution: {integrity: sha512-7W0vV3rqv5tokqkBAFV1LbR7HPOWzXQDpDgEuib/aJ1jsZZx6x3c2mBI+TJhJzOhkGeaLbCKEHXEXLfirtG2JA==}
     engines: {node: '>=18'}
+
+  lean-package@1.5.0:
+    resolution: {integrity: sha512-2h5rmZKi9UnIF4xzQ/2slRmCUSB/Sn0jwhFNqqZFxNJz1qXs+rXikQF0RLGVHuuVn4XuIPQBPGVlvgKtQouIRw==}
+    hasBin: true
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -3071,6 +3078,8 @@ snapshots:
   latest-version@9.0.0:
     dependencies:
       package-json: 10.0.1
+
+  lean-package@1.5.0: {}
 
   levn@0.4.1:
     dependencies:

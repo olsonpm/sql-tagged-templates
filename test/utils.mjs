@@ -1,8 +1,7 @@
 import { symbols as s } from '#src/utils'
 
 const makeRawSql = rawSql => ({
-  rawSql,
-  [s.isRawSql]: true,
+  [s.rawSql]: rawSql,
 })
 
 /**
