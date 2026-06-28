@@ -1,9 +1,21 @@
-## Dialect Examples
+# Dialect Examples
 
 These examples show queries using each database library with and
 without sql-tagged-templates.
 
 They all assume a `const author = 'Kurt Vonnegut'`
+
+## Table Of Contents
+
+<!-- toc -->
+
+  - [mariadb](#mariadb)
+  - [mysql2](#mysql2)
+  - [pg](#pg)
+  - [sequelize](#sequelize)
+  - [sequelize - bound](#sequelize---bound)
+
+<!-- tocstop -->
 
 <br>
 

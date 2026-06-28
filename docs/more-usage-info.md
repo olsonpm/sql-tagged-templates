@@ -1,5 +1,7 @@
 # More Usage Info
 
+<br>
+
 ## Table Of Contents
 
 <!-- toc -->
@@ -7,7 +9,7 @@
 - [How it works](#how-it-works)
 - [Building complex queries with nesting](#building-complex-queries-with-nesting)
 - [Raw values](#raw-values)
-  - [Conditionally Add Sql](#conditionally-add-sql)
+  - [Conditionally Add SQL](#conditionally-add-sql)
     - [Note](#note)
 - [Array Values](#array-values)
 - [Bound Statements in sequelize](#bound-statements-in-sequelize)
@@ -72,9 +74,9 @@ const pgQuery = stt.pg`select * from ${pgTable}
 
 <br>
 
-### Conditionally Add Sql
+### Conditionally Add SQL
 
-You can use `.empty` to conditionally build sql.
+You can use `.empty` to conditionally build SQL.
 
 ```js
 const conditionalWhere = params.title

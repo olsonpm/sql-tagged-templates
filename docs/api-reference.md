@@ -1,5 +1,7 @@
 # API Reference
 
+<br>
+
 ## Table Of Contents
 
 <!-- toc -->
@@ -18,9 +20,10 @@
 
 ## Exports
 
-sql-tagged-templates exports four [dialects](#dialect) which you import via name or subpath.
+sql-tagged-templates exports four [dialects](#dialect) which you import via name
+or subpath.
 
-*Note*: sequelize has an additional 'bound' dialect [explained further down](#sequelize---bind)
+**Note:** sequelize has an additional 'bound' dialect [explained further down](#sequelize---bind)
 
 <br>
 
@@ -34,7 +37,7 @@ const mdQuery = stt.mariadb`select * from books`
 const msQuery = stt.mysql2`select * from books`
 const pgQuery = stt.pg`select * from books`
 const sqQuery = stt.sequelize`select * from books`
-const sqQuery = stt.sequelize.bound`select * from books`
+const sqbQuery = stt.sequelize.bound`select * from books`
 ```
 
 <br>
@@ -52,23 +55,20 @@ import stt, { bound } from 'sql-tagged-templates/sequelize'
 
 ## Dialect
 
-A 'dialect' is a tagged template function producing a query object compatible
+A 'dialect' is a tagged template function returning a query object compatible
 with its library.
 
 You can [view quick examples of each dialect here][dialect-examples].
 
-The dialects have these types.
-
 <details>
 
-<summary>Click to show types</summary>
+<summary>Click to show typescript definitions</summary>
 
 <br>
 
-> [!note]
-> These types define the public API and leave out properties and structures used
-> internally for building the query.  Internal properties may change on
-> non-major version bumps.
+**Note:** These types define the public API and leave out properties and
+structures used internally for building the query.  Internal properties may
+change on non-major version bumps.
 
 ```ts
 type MariadbDialect = Dialect<MariadbQuery>
@@ -128,15 +128,19 @@ boundStt`select * from books`
 // where stt.bound === boundStt
 ```
 
+<br>
+
 ## Dialect.raw()
 
 Each dialect exposes a `.raw(rawSql: string)` function for things like adding
 dynamic column names. See [usage and examples here][raw-usage].
 
+<br>
+
 ## Dialect.empty
 
 Each dialect exposes an `.empty` property allowing you to include conditional
-sql.  See [usage and examples here][empty-usage]
+SQL.  See [usage and examples here][empty-usage]
 
 [dialect-examples]: ./dialect-examples.md
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql

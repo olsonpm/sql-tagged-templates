@@ -1,5 +1,7 @@
 # SQL Tagged Templates
 
+<br>
+
 ## Table Of Contents
 
 <!-- toc -->
@@ -18,7 +20,7 @@
 
 ## What is it?
 
-A library to simplify writing dynamic sql.
+A library to simplify writing dynamic SQL.
 
 For example, you can write a parameterized query to MariaDB like this:
 
@@ -26,9 +28,9 @@ For example, you can write a parameterized query to MariaDB like this:
 import stt from 'sql-tagged-templates/mariadb`
 
 const author = 'Kurt Vonnegut'
-const booksQuery = stt`select * from books where author = ${author}`
-// booksQuery.sql is 'select * from books author = ?'
-// booksQuery.values is ['Kurt Vonnegut']
+const query = stt`select * from books where author = ${author}`
+// query.sql is 'select * from books author = ?'
+// query.values is ['Kurt Vonnegut']
 
 const rows = await mariadbPool.query(query)
 ```
@@ -68,8 +70,7 @@ It makes your larger dynamic queries more readable.
 For example, inserting many values:
 
 ```js
-db.query(
-  `
+db.query(`
   insert into books (title, author, isbn, category, recommended_age, pages, price)
   values (?, ?, ?, ?, ?, ?, ?)`,
   [title, author, isbn, category, recommendedAge, pages, price]
@@ -83,8 +84,8 @@ db.query(stt`
 ```
 
 As your queries grow more complex, sql-tagged-templates allows you to easily
-reuse portions and compose them into full queries via nesting. Acheiving the
-same with sql-template-strings becomes unweildy using `.append()`.
+reuse portions and compose them into full queries [via nesting][nested-queries].
+Acheiving the same with sql-template-strings becomes unweildy using `.append()`.
 
 <br>
 
@@ -103,7 +104,7 @@ same with sql-template-strings becomes unweildy using `.append()`.
     setName and no exported class SQLStatement.
   - Migrating from that API?  See our [migration guide][migration-guide]
 - [Queries can be nested][nested-queries]
-- [Raw sql is now explicit][raw-usage]
+- [Raw SQL is now explicit][raw-usage]
 
 <br>
 
@@ -119,7 +120,7 @@ View [the API reference here][api-reference]
 [api-reference]: ./docs/api-reference.md
 [db-libs-supported]: #what-database-libraries-are-supported
 [dialect-examples]: ./docs/dialect-examples.md
-[explicit-dialects]: ./docs/explicit-dialects.md
+[explicit-dialects]: ./docs/api-reference.md#exports
 [mariadb]: https://www.npmjs.com/package/mariadb
 [migration-guide]: ./docs/migrating-from-sts.md
 [more-usage-info]: ./docs/more-usage-info.md

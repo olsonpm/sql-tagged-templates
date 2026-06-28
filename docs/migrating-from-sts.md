@@ -1,4 +1,6 @@
-# Migrating From Sql Template Strings
+# Migrating From SQL Template Strings
+
+<br>
 
 ## Table Of Contents
 
@@ -80,7 +82,7 @@ postgresPool.query(stt`select * from books`)
 
 2. [Raw strings are explicit now][raw-usage]
 
-3. Instead of conditionally calling append, [use `.empty` for conditional sql][empty-usage]
+3. Instead of conditionally calling append, [use `.empty` for conditional SQL][empty-usage]
 
 <br>
 
@@ -135,8 +137,8 @@ It's not possible for me to write a guide for this since you could be doing
 anything with that class.
 
 From a broader perspective, classes are stateful and sql-tagged-templates is
-stateless, meaning an approach using classes won't work. So you're going to
-have to figure out how to approach your problem in an immutable way.
+stateless, meaning an approach using classes won't work. So you'll have to
+approach your problem in an immutable way.
 
 [bound-usage]: ./more-usage-info.md#bound-statements-in-sequelize
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql
