@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import makeDialect from '#src/make-dialect'
+import { buildCombineParts } from './spies/index.mjs'
 
 const author = 'Kurt Vonnegut'
 
@@ -104,6 +105,37 @@ describe('dialect', () => {
     expect(query).to.deep.include({
       text: 'select title from books where author = $1 and title = $2',
       values: [author, title],
+    })
+  })
+
+  it('exposes combineParts', () => {
+    const stt = makeDialect({
+      placeholderType: 'numbered',
+      stringName: 'text',
+    })
+    expect(buildCombineParts.argsPerCall).to.deep.equal([[stt]])
+    expect(stt.combineParts).to.equal(buildCombineParts.lastCall.result)
+  })
+
+  it('ensures makeCombineParts calls combineParts correctly', () => {
+    const stt = makeDialect({
+      placeholderType: 'numbered',
+      stringName: 'text',
+    })
+    const opts = { separator: ', ' }
+    const combineParts = buildCombineParts.lastCall.result
+    stt.makeCombineParts(opts)([])
+    expect(combineParts.argsPerCall).to.deep.equal([[opts, []]])
+  })
+
+  it('ensures combineParts returns the expected result', () => {
+    const query = stt.combineParts(
+      { before: '(', separator: ', ', after: ')' },
+      [1, 2]
+    )
+    expect(query).to.deep.include({
+      text: '($1, $2)',
+      values: [1, 2],
     })
   })
 })

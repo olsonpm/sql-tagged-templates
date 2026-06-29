@@ -1,12 +1,6 @@
-/**
- * note: nested queries are tested in ./make-dialect.mjs since
- *   flatten-strings-and-values depends on the queries produced by make-dialect
- *   for recursion.
- */
-
 import { expect } from 'chai'
 import flattenStringsAndValues from '#src/flatten-strings-and-values'
-import { makeRawSql, makeShallowQuery } from './utils.mjs'
+import { makeRawSql, makeShallowQuery } from './utils/index.mjs'
 
 describe('flatten-strings-and-values', () => {
   it('handles simplest case of one string', () => {

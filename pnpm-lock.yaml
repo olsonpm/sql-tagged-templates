@@ -20,6 +20,12 @@ importers:
       chai:
         specifier: ^6.2.2
         version: 6.2.2
+      common-fp:
+        specifier: ^0.2.1
+        version: 0.2.1
+      dedent:
+        specifier: ^1.7.2
+        version: 1.7.2
       eslint:
         specifier: ^10.6.0
         version: 10.6.0(supports-color@8.1.1)
@@ -32,6 +38,9 @@ importers:
       execa:
         specifier: ^9.6.1
         version: 9.6.1
+      fibble:
+        specifier: ^1.2.3
+        version: 1.2.3
       globals:
         specifier: ^17.7.0
         version: 17.7.0
@@ -85,6 +94,15 @@ packages:
   '@bcoe/v8-coverage@1.0.2':
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
+
+  '@common-fp/shared-internals@0.2.0':
+    resolution: {integrity: sha512-haQO/f8yWMZ0P6oKXnPMMWQPEXpR0EBuXvrjVb8HxILHYqTFQL+Rsxoyg5R6f4H6eUo7FQtmZSBzcUAr4CP8/w==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@common-fp/shared-internals-types': ^0.2.0
+    peerDependenciesMeta:
+      '@common-fp/shared-internals-types':
+        optional: true
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -637,6 +655,15 @@ packages:
     resolution: {integrity: sha512-0h+uSNtQGW3D98eQt3jJ8L06Fves8hncB4V/PKdw/Qb8Hnk19VaKuTr55UNRYiSoVa7WwrFls+rh3ux9agmkeQ==}
     engines: {node: '>= 12.0.0'}
 
+  common-fp@0.2.1:
+    resolution: {integrity: sha512-fKOfPwcZJRu97EjPsTddDVeeuSKSVDx9YwaATdeoEPL0+8qVhF4e5nM5VUkQcU7qW+72F6V3gOI+q840h6syFQ==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      common-fp-types: ^0.2.0
+    peerDependenciesMeta:
+      common-fp-types:
+        optional: true
+
   config-chain@1.1.13:
     resolution: {integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==}
 
@@ -684,6 +711,14 @@ packages:
   decompress-response@6.0.0:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
     engines: {node: '>=10'}
+
+  dedent@1.7.2:
+    resolution: {integrity: sha512-WzMx3mW98SN+zn3hgemf4OzdmyNhhhKz5Ay0pUfQiMQ3e1g+xmTJWp/pKdwKVXhdSkAEGIIzqeuWrL3mV/AXbA==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
 
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
@@ -880,6 +915,10 @@ packages:
   fetch-node-website@9.0.1:
     resolution: {integrity: sha512-htQY+YRRFdMAxmQG8EpnVy32lQyXBjgFAvyfaaq7VCn53Py1gorggPMYAt1Zmp0AlNS1X/YnGt641RAkUbsETw==}
     engines: {node: '>=18.18.0'}
+
+  fibble@1.2.3:
+    resolution: {integrity: sha512-BfVDyRt2KcJ6zYOd+8U4R//a9m3KHwe4bB/peKu+nrATZ6C+gF7VXRlzFCB/fSc++U5S0FbrhCoS+P5Nd5SADA==}
+    engines: {node: '>=16.12.0 <20.0.0 || >20.6.0'}
 
   figures@6.1.0:
     resolution: {integrity: sha512-d+l3qxjSesT4V7v2fh+QnmFnUWv9lSpjarhShNTgBOfA0ttejbQUAlHLitbjkoRiDulW0OPoQPYIGhIC8ohejg==}
@@ -2015,6 +2054,8 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
+  '@common-fp/shared-internals@0.2.0': {}
+
   '@emnapi/core@1.10.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
@@ -2504,6 +2545,12 @@ snapshots:
 
   comment-parser@1.4.7: {}
 
+  common-fp@0.2.1:
+    dependencies:
+      '@common-fp/shared-internals': 0.2.0
+    transitivePeerDependencies:
+      - '@common-fp/shared-internals-types'
+
   config-chain@1.1.13:
     dependencies:
       ini: 1.3.8
@@ -2551,6 +2598,8 @@ snapshots:
   decompress-response@6.0.0:
     dependencies:
       mimic-response: 3.1.0
+
+  dedent@1.7.2: {}
 
   deep-extend@0.6.0: {}
 
@@ -2762,6 +2811,8 @@ snapshots:
       figures: 6.1.0
       got: 13.0.0
       is-plain-obj: 4.1.0
+
+  fibble@1.2.3: {}
 
   figures@6.1.0:
     dependencies:

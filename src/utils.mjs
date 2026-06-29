@@ -1,3 +1,5 @@
+const isRawSql = val => Object.hasOwn(val, symbols.rawSql)
+
 const symbols = {
   isQuery: Symbol('sql-tagged-templates:is-query'),
   rawSql: Symbol('sql-tagged-templates:raw-sql'),
@@ -5,4 +7,6 @@ const symbols = {
   values: Symbol('sql-tagged-templates:values'),
 }
 
-export { symbols }
+const toRawSql = str => ({ [symbols.rawSql]: str })
+
+export { isRawSql, symbols, toRawSql }

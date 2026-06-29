@@ -1,4 +1,6 @@
 import { symbols as s } from '#src/utils'
+import createMockFn from './create-mock-fn.mjs'
+import spy from './spy.mjs'
 
 const makeRawSql = rawSql => ({
   [s.rawSql]: rawSql,
@@ -16,4 +18,4 @@ const makeShallowQuery = (strings, ...values) => ({
   [s.values]: values,
 })
 
-export { makeRawSql, makeShallowQuery }
+export { createMockFn, makeRawSql, makeShallowQuery, spy }

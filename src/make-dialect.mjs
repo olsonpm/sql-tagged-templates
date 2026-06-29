@@ -1,5 +1,6 @@
+import buildCombineParts from './build-combine-parts.mjs'
 import flattenStringsAndValues from './flatten-strings-and-values.mjs'
-import { symbols as s } from './utils.mjs'
+import { symbols as s, toRawSql } from './utils.mjs'
 
 const buildQueryByPlaceholderType = {
   numbered: strings => strings.reduce((res, cur, i) => res + '$' + i + cur),
@@ -22,6 +23,11 @@ const makeDialect = options => {
     }
   }
 
+  const combineParts = buildCombineParts(dialect)
+
+  dialect.combineParts = combineParts
+  dialect.makeCombineParts = options => parts => combineParts(options, parts)
+
   dialect.raw = rawSql => {
     if (Array.isArray(rawSql)) {
       let msg = 'raw is a function, not a tagged template'
@@ -30,7 +36,7 @@ const makeDialect = options => {
       msg += "\n  *not* like `stt.raw`'some_column'`"
       throw new Error(msg)
     }
-    return { [s.rawSql]: rawSql }
+    return toRawSql(rawSql)
   }
 
   dialect.empty = dialect.raw('')
