@@ -1,9 +1,22 @@
+declare const rawSqlKey: unique symbol
+type RawSql = { [rawSqlKey]: string }
+
+type CombinePartsOptions = {
+  before?: string | RawSql
+  separator: string | RawSql
+  after?: string | RawSql
+}
+
 type Dialect<Query> = {
   (strings: TemplateStringsArray, ...values: unknown[]): Query
 
-  // raw and empty are explained in a later section
-  raw: (rawSql: string) => unknown
-  empty: unknown
+  raw: (rawSql: string) => RawSql
+  empty: { [rawSqlKey]: '' }
+
+  combineParts: (options: CombinePartsOptions, parts: unknown[]) => Query
+  makeCombineParts: (
+    options: CombinePartsOptions
+  ) => (parts: unknown[]) => Query
 }
 
-export type { Dialect }
+export type { CombinePartsOptions, Dialect, RawSql }
