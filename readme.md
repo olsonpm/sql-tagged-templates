@@ -95,7 +95,7 @@ Acheiving the same with sql-template-strings becomes unweildy using `.append()`.
 - Only supports LTS versions of node
 - Drop support for the older [mysql][mysql] package
 - Add support for the [mariadb][mariadb] package
-- Only support the latest major versions of the other libraries [listed above][db-libs-supported].
+- Only support the latest major versions of the database libraries [listed above][db-libs-supported].
   - The older versions may work fine, I just don't want to write tests for them
     nor support compatibility
 - [Dialects are now explicit][explicit-dialects]
@@ -116,6 +116,7 @@ Acheiving the same with sql-template-strings becomes unweildy using `.append()`.
 
 Additional usage documentation [can be found here][more-usage-info]
 
+<br>
 
 ## API Reference
 
