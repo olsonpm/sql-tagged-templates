@@ -262,7 +262,7 @@ function getBooks(userFilters = {}) {
       const wrappedAuthor = `%${author}%`
       return stt`author like ${wrappedAuthor}`
     },
-    publishDate: publishDate => stt`publish_date > ${publishDate}`),
+    publishDate: publishDate => stt`publish_date > ${publishDate}`,
   }
 
   const combineParts = makeCombineParts({ start: 'where ', separator: ' and ' })
