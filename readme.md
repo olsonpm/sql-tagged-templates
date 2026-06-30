@@ -105,6 +105,10 @@ Acheiving the same with sql-template-strings becomes unweildy using `.append()`.
   - Migrating from that API?  See our [migration guide][migration-guide]
 - [Queries can be nested][nested-queries]
 - [Raw SQL is now explicit][raw-usage]
+- Add a helper `combineParts`
+  - This function helps with dynamic sets of data e.g. user selected filters for
+    a query.  See more about [how combineParts helps here][why-combine-parts]
+  - There's also a functional programming friendly version [`makeCombineParts`][why-make-combine-parts]
 
 <br>
 
@@ -132,3 +136,5 @@ View [the API reference here][api-reference]
 [raw-usage]: ./docs/more-usage-info.md#raw-values
 [sequelize]: https://www.npmjs.com/package/sequelize
 [sts]: https://github.com/felixfbecker/node-sql-template-strings
+[why-combine-parts]: ./docs/more-usage-info.md#handle-dynamic-arrays
+[why-make-combine-parts]: ./docs/more-usage-info.md#why-makecombineparts

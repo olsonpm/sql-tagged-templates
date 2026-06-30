@@ -12,9 +12,10 @@
   - [Conditionally Add SQL](#conditionally-add-sql)
 - [Array Values](#array-values)
 - [Bound Statements in sequelize](#bound-statements-in-sequelize)
-- [Handle Dynamic Arrays](#handle-dynamic-arrays)
+- [Handle Dynamic Sets Of Data](#handle-dynamic-sets-of-data)
   - [Use Case](#use-case)
   - [How combineParts can help](#how-combineparts-can-help)
+  - [Why makeCombineParts?](#why-makecombineparts)
 
 <!-- tocstop -->
 
@@ -155,10 +156,14 @@ import { bound as stt } from 'sql-tagged-templates/sequelize'
 
 <br>
 
-## Handle Dynamic Arrays
+## Handle Dynamic Sets Of Data
 
-This section explains how to use `combineParts`.
+This section explains how `combineParts` helps us build queries for dynamic sets
+of data.
+
 It's a complex topic so let's start with a use case.
+
+<br>
 
 ### Use Case
 
@@ -183,13 +188,14 @@ And if they additionally search by publish date later than 1970, we'd add
   and publish_date >= '1970-01-01'
 ```
 
-Notice the three base cases that our api endpoint would have to handle
+Notice the three cases our search has to handle
   - no filters
   - one filter e.g. `where <filter1>`
   - multiple filters e.g. `where <filter1> and <filter2>`
 
 Managing this by hand becomes monotonous, so let's see how `combineParts` helps.
 
+<br>
 
 ### How combineParts can help
 
@@ -234,6 +240,55 @@ Ultimately `combineParts` is a flexible function that helps with dynamic sets of
 data.  It may be hard to wrap your head around - so feel free to ask via GitHub
 issues whether it could solve your use case.
 
+<br>
 
+### Why makeCombineParts?
+
+So we understand how combineParts helps, what's the point of `makeCombineParts`?
+
+It's a functional programming (fp) friendly version - where us fp nerds find it
+helpful to pass the data argument last.  If you're not familiar with fp then you
+can forget this function and move on.
+
+To show an example though: here's the above code using a functional approach
+via [common-fp][common-fp]
+
+```js
+import { passThrough, pick, update } from 'common-fp'
+
+function getBooks(userFilters = {}) {
+  const buildFilterParts = {
+    author: author => {
+      const wrappedAuthor = `%${author}%`
+      return stt`author like ${wrappedAuthor}`
+    },
+    publishDate: publishDate => stt`publish_date > ${publishDate}`),
+  }
+
+  const combineParts = makeCombineParts({ start: 'where ', separator: ' and ' })
+
+  const where = passThrough(userFilters, [
+    pick(['author', 'publishDate']),
+    update(buildFilterParts),
+    Object.values,
+    combineParts,
+  ])
+
+  const query = stt`
+    select *
+    from books
+    ${where}
+  `
+  // ...
+}
+```
+
+I won't explain how the common-fp functions work, but one basic goal of this
+solution is to avoid the if statements.  You can imagine how the if statements
+grow with the number of filters - and fp feels that complicates the code.  You
+may feel differently, that the functional approach is more complicated and hard
+to follow.  Ain't nobody wrong, just differing styles trying to coexist :)
+
+[common-fp]: https://common-fp.org
 [dialect-examples]: ./dialect-examples.md
 [pg-prepared-statement]: https://node-postgres.com/features/queries#prepared-statements

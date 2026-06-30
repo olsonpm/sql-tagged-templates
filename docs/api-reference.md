@@ -180,7 +180,7 @@ is simple:
 type makeCombineParts = (options: CombinePartsOptions) => (parts: unknown[]) => Query
 ```
 
-See [usage and examples here]
+See [usage and examples here][make-combine-parts-usage].
 
 Note: If you're not familiar with functional programming then you probably won't
 need this method.
@@ -189,6 +189,7 @@ need this method.
 [dialect-examples]: ./dialect-examples.md
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql
 [combine-parts-usage]: ./more-usage-info.md#handle-dynamic-arrays
+[make-combine-parts-usage]: ./more-usage-info.md#why-makecombineparts
 [raw-usage]: ./more-usage-info.md#raw-values
 [sequelize-bind-param]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
 [sequelize-replacements]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#replacements
