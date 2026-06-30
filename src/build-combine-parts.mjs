@@ -7,16 +7,16 @@ import {
 } from './fp-utils.mjs'
 import { isRawSql, symbols as s } from './utils.mjs'
 
-const optionKeys = ['before', 'separator', 'after']
+const optionKeys = ['start', 'separator', 'end']
 
 const buildCombineParts = dialect => (options, parts) => {
   validateInput(options, parts)
   if (!parts.length) return dialect.empty
 
-  const { before, after, separator } = sanitizeOptions(options)
+  const { start, end, separator } = sanitizeOptions(options)
   const separatorArr = new Array(parts.length - 1).fill().map(() => separator)
 
-  const strings = [before, ...separatorArr, after]
+  const strings = [start, ...separatorArr, end]
 
   return dialect(strings, ...parts)
 }
@@ -24,7 +24,7 @@ const buildCombineParts = dialect => (options, parts) => {
 function sanitizeOptions(options) {
   return passThrough(options, [
     pick(optionKeys),
-    assignDefaults({ before: '', separator: ', ', after: '' }),
+    assignDefaults({ start: '', separator: ', ', end: '' }),
     mapValuesObj(stringFromRawSql),
   ])
 }

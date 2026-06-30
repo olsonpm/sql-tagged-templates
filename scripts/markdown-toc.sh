@@ -2,7 +2,8 @@
 
 cmd="${1}"
 
-pnpm markdown-toc-gen "${cmd}" ./readme.md \
+pnpm markdown-toc-gen --max-depth 3 \
+  "${cmd}" ./readme.md \
   ./docs/api-reference.md \
   ./docs/dialect-examples.md \
   ./docs/migrating-from-sts.md \

@@ -21,22 +21,22 @@ describe('combine-parts', () => {
   })
 
   it('combines the query with one value', () => {
-    const options = { before: '(', separator: ', ', after: ')' }
+    const options = { start: '(', separator: ', ', end: ')' }
     combineParts(options, [1])
     expect(dialect.argsPerCall).to.deep.equal([[['(', ')'], 1]])
   })
 
   it('combines the query with two values', () => {
-    const options = { before: '(', separator: ', ', after: ')' }
+    const options = { start: '(', separator: ', ', end: ')' }
     combineParts(options, [1, 2])
     expect(dialect.argsPerCall).to.deep.equal([[['(', ', ', ')'], 1, 2]])
   })
 
   it('combines with two values using rawSql just the same', () => {
     const options = mapValues(makeRawSql)({
-      before: '(',
+      start: '(',
       separator: ', ',
-      after: ')',
+      end: ')',
     })
     combineParts(options, [1, 2])
     expect(dialect.argsPerCall).to.deep.equal([[['(', ', ', ')'], 1, 2]])
@@ -64,14 +64,14 @@ describe('combine-parts', () => {
     it("throws when options passed aren't valid", () => {
       const expectedErrMsg = dedent(`
         combineClause requires options to either be strings or rawSql instances.  The following options passed are invalid.
-         - before
+         - start
          - separator
-         - after
+         - end
       `)
       const options = {
-        before: 1,
+        start: 1,
         separator: 1,
-        after: 1,
+        end: 1,
       }
       expect(() => combineParts(options, [])).to.throw(expectedErrMsg)
     })

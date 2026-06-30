@@ -10,9 +10,11 @@
 - [Building complex queries with nesting](#building-complex-queries-with-nesting)
 - [Raw values](#raw-values)
   - [Conditionally Add SQL](#conditionally-add-sql)
-    - [Note](#note)
 - [Array Values](#array-values)
 - [Bound Statements in sequelize](#bound-statements-in-sequelize)
+- [Handle Dynamic Arrays](#handle-dynamic-arrays)
+  - [Use Case](#use-case)
+  - [How combineParts can help](#how-combineparts-can-help)
 
 <!-- tocstop -->
 
@@ -150,6 +152,88 @@ sequelize.query(query)
 // you can optionally use the named export instead.  They are identical
 import { bound as stt } from 'sql-tagged-templates/sequelize'
 ```
+
+<br>
+
+## Handle Dynamic Arrays
+
+This section explains how to use `combineParts`.
+It's a complex topic so let's start with a use case.
+
+### Use Case
+
+Let's say we have a library search page where you can filter by author and date
+published.  If the user doesn't declare any filters, then our query
+is simple
+
+```sql
+select *
+from books
+```
+
+If the user searches for author 'Vonnegut', then we'd add
+
+```sql
+where author like '%Vonnegut%'
+```
+
+And if they additionally search by publish date later than 1970, we'd add
+
+```sql
+  and publish_date >= '1970-01-01'
+```
+
+Notice the three base cases that our api endpoint would have to handle
+  - no filters
+  - one filter e.g. `where <filter1>`
+  - multiple filters e.g. `where <filter1> and <filter2>`
+
+Managing this by hand becomes monotonous, so let's see how `combineParts` helps.
+
+
+### How combineParts can help
+
+Let's build our filter logic above using `combineParts`
+
+```js
+import stt from 'sql-tagged-templates/pg'
+
+function getBooks(userFilters = {}) {
+  const { author, publishDate } = userFilters
+  const filterParts = []
+  if (author) {
+    const wrappedAuthor = `%${author}%`
+    filterParts.push(stt`author like ${wrappedAuthor}`)
+  }
+  if (publishDate) {
+    filterParts.push(stt`publish_date > ${publishDate}`)
+  }
+
+  const options = { start: 'where ', separator: ' and ' }
+  const where = stt.combineParts(options, filterParts)
+  const query = stt`
+    select *
+    from books
+    ${where}
+  `
+  // ...
+}
+```
+
+How does this work?
+
+When the user doesn't filter by anything, then filterParts is empty so
+combineParts returns [`dialect.empty`](#conditionally-add-sql).
+
+When the user filters by at least one thing, then combineParts starts the query
+with 'where '.
+
+And if the user passes multiple filters, then they'll be separated by ' and '.
+
+Ultimately `combineParts` is a flexible function that helps with dynamic sets of
+data.  It may be hard to wrap your head around - so feel free to ask via GitHub
+issues whether it could solve your use case.
+
 
 [dialect-examples]: ./dialect-examples.md
 [pg-prepared-statement]: https://node-postgres.com/features/queries#prepared-statements

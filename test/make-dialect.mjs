@@ -130,7 +130,7 @@ describe('dialect', () => {
 
   it('ensures combineParts returns the expected result', () => {
     const query = stt.combineParts(
-      { before: '(', separator: ', ', after: ')' },
+      { start: '(', separator: ', ', end: ')' },
       [1, 2]
     )
     expect(query).to.deep.include({

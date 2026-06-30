@@ -2,9 +2,9 @@ declare const rawSqlKey: unique symbol
 type RawSql = { [rawSqlKey]: string }
 
 type CombinePartsOptions = {
-  before?: string | RawSql
+  start?: string | RawSql
   separator: string | RawSql
-  after?: string | RawSql
+  end?: string | RawSql
 }
 
 type Dialect<Query> = {

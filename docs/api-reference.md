@@ -13,6 +13,8 @@
 - [Sequelize - Bind](#sequelize---bind)
 - [Dialect.raw()](#dialectraw)
 - [Dialect.empty](#dialectempty)
+- [Dialect.combineParts()](#dialectcombineparts)
+- [Dialect.makeCombineParts()](#dialectmakecombineparts)
 
 <!-- tocstop -->
 
@@ -66,42 +68,41 @@ You can [view quick examples of each dialect here][dialect-examples].
 
 <br>
 
-**Note:** These types define the public API and leave out properties and
-structures used internally for building the query.  Internal properties may
-change on non-major version bumps.
+**Note:** These types define the public API and leave out properties used
+internally for building the query.  Internal properties may change on non-major
+version bumps.
 
 ```ts
-type MariadbDialect = Dialect<MariadbQuery>
-type Mysql2Dialect = Dialect<Mysql2Query>
-type PgDialect = Dialect<PgQuery>
-type SequelizeDialect = Dialect<SequelizeQuery> & {
+type MariadbDialect = Dialect<{ sql: string, values: unknown[] }>
+type Mysql2Dialect = Dialect<{ sql: string, values: unknown[] }>
+type PgDialect = Dialect<{ text: string, values: unknown[] }>
+type SequelizeDialect = Dialect<{ query: string, values: unknown[] }> & {
   bound: SequelizeBoundDialect
 }
-type SequelizeBoundDialect = Dialect<SequelizeBoundQuery>
+type SequelizeBoundDialect = Dialect<{ query: string, bind: unknown[] }>
 
 
-// helper types
+// Dialect definition
 
-type HasValues = { values: unknown[] }
+declare const rawSqlKey: unique symbol
+type RawSql = { [rawSqlKey]: string }
 
-type MariadbQuery = HasValues & { sql: string }
-type Mysql2Query = HasValues & { sql: string }
-type PgQuery = HasValues & { text: string }
-type SequelizeQuery = HasValues & { query: string }
-type SequelizeBoundQuery = { bind: unknown[], query: string }
+type CombinePartsOptions = {
+  start?: string | RawSql
+  separator: string | RawSql
+  end?: string | RawSql
+}
 
-type DialectQuery = MariadbQuery
-  | Mysql2Query
-  | PgQuery
-  | SequelizeQuery
-  | SequelizeBoundQuery
+type Dialect<Query> = {
+  (strings: TemplateStringsArray, ...values: unknown[]): Query,
 
-type Dialect<DQ extends DialectQuery> = {
-  (strings: TemplateStringsArray, ...values: unknown[]): DQ,
+  raw: (rawSql: string) => RawSql
+  empty: { [rawSqlKey]: '' }
 
-  // raw and empty are explained in a later section
-  raw: (rawSql: string) => unknown,
-  empty: unknown
+  combineParts: (options: CombinePartsOptions, parts: unknown[]) => Query
+  makeCombineParts: (
+    options: CombinePartsOptions
+  ) => (parts: unknown[]) => Query
 }
 ```
 
@@ -142,8 +143,52 @@ dynamic column names. See [usage and examples here][raw-usage].
 Each dialect exposes an `.empty` property allowing you to include conditional
 SQL.  See [usage and examples here][empty-usage]
 
+<br>
+
+## Dialect.combineParts()
+
+This function returns a query which accounts for a dynamic array of values.  The
+simplest case is if you want to update a dynamic number of columns.
+
+See [usage and examples here][combine-parts-usage].
+
+<details>
+
+<summary>Click to show typescript definitions</summary>
+
+```ts
+// Query is from the dialect.  For context, view the Dialect type definitions
+type combineParts = (options: CombinePartsOptions, parts: unknown[]) => Query
+
+type CombinePartsOptions = {
+  start?: string | RawSql
+  separator: string | RawSql
+  end?: string | RawSql
+}
+```
+
+</details>
+
+<br>
+
+## Dialect.makeCombineParts()
+
+This is a functional programming friendly version of `combineParts`.  Its type
+is simple:
+
+```ts
+type makeCombineParts = (options: CombinePartsOptions) => (parts: unknown[]) => Query
+```
+
+See [usage and examples here]
+
+Note: If you're not familiar with functional programming then you probably won't
+need this method.
+
+
 [dialect-examples]: ./dialect-examples.md
 [empty-usage]: ./more-usage-info.md#conditionally-add-sql
+[combine-parts-usage]: ./more-usage-info.md#handle-dynamic-arrays
 [raw-usage]: ./more-usage-info.md#raw-values
 [sequelize-bind-param]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
 [sequelize-replacements]: https://sequelize.org/docs/v6/core-concepts/raw-queries/#replacements
