@@ -14,7 +14,7 @@ const flattenStringsAndValues = ({ strings, values }) => {
     if (isRawSql(val)) {
       const lastStrIdx = flat.strings.length - 1
       flat.strings[lastStrIdx] += val[s.rawSql] + strsCopy.shift()
-    } else if (val[s.isQuery]) {
+    } else if (val?.[s.isQuery]) {
       const nested = flattenStringsAndValues({
         strings: val[s.strings],
         values: val[s.values],

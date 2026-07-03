@@ -50,8 +50,12 @@ describe('dialect', () => {
 
   it('throws when attempting to call raw as a tagged template', () => {
     expect(() => stt.raw`title`).to.throw(
-      /^raw is a function, not a tagged template/
+      /^dialect\.raw is a function, not a tagged template/
     )
+  })
+
+  it('throws when calling raw with a non-string', () => {
+    expect(() => stt.raw(0)).to.throw('dialect.raw requires a string')
   })
 
   it('handles a query with no values', () => {
@@ -67,6 +71,14 @@ describe('dialect', () => {
     expect(query).to.deep.include({
       text: 'select * from books where author = $1',
       values: [author],
+    })
+  })
+
+  it('handles a query with a null value', () => {
+    const query = stt`select * from books where author is not distinct from ${null}`
+    expect(query).to.deep.include({
+      text: 'select * from books where author is not distinct from $1',
+      values: [null],
     })
   })
 

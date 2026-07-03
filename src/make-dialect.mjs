@@ -30,11 +30,14 @@ const makeDialect = options => {
 
   dialect.raw = rawSql => {
     if (Array.isArray(rawSql)) {
-      let msg = 'raw is a function, not a tagged template'
+      let msg = 'dialect.raw is a function, not a tagged template'
       msg +=
         "\n  e.g. you call it with parentheses like `stt.raw('some_column')`"
       msg += "\n  *not* like `stt.raw`'some_column'`"
       throw new Error(msg)
+    }
+    if (typeof rawSql !== 'string') {
+      throw new Error('dialect.raw requires a string')
     }
     return toRawSql(rawSql)
   }

@@ -1,4 +1,4 @@
-const isRawSql = val => Object.hasOwn(val, symbols.rawSql)
+const isRawSql = val => typeof val?.[symbols.rawSql] === 'string'
 
 const symbols = {
   isQuery: Symbol('sql-tagged-templates:is-query'),

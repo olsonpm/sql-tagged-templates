@@ -6,4 +6,5 @@ create table books (
 insert into books (title, author)
 values ('Cat''s Cradle', 'Kurt Vonnegut'),
   ('Player Piano', 'Kurt Vonnegut'),
-  ('Factotum', 'Charles Bukowski');
+  ('Factotum', 'Charles Bukowski'),
+  ('The Secret Barrister', null);

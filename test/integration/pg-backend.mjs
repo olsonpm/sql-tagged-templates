@@ -42,6 +42,13 @@ describe('pg-backend', function () {
     ])
   })
 
+  it('pg should work with a simple query using null', async () => {
+    const author = null
+    const query = stt.pg`select * from books where author is not distinct from ${author}`
+    const res = await pgPool.query(query)
+    expect(res.rows).to.deep.equal([{ title: 'The Secret Barrister', author }])
+  })
+
   it('sequelize should work with a simple query', async () => {
     const author = 'Kurt Vonnegut'
     const query = stt.sequelize`select * from books where author = ${author}`
